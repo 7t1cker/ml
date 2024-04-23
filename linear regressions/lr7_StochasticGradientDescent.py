@@ -36,26 +36,19 @@ class MyLineReg():
                 raise ValueError("Invalid value for sgd_sample!")
         else:
             sgd_size = n_samples
-        
-
         for i in range(1, self.n_iter + 1):
 
             sample_rows_idx = random.sample(range(n_samples), sgd_size)
-            
 
             X_batch = X.iloc[sample_rows_idx]
             y_batch = y.iloc[sample_rows_idx]
-            
-
+        
             y_pred = X_batch.dot(self.weights)
             
-     
             error = y_pred - y_batch
-            
-    
+        
             gradient = (2 / sgd_size) * X_batch.T.dot(error)
             
-   
             if self.reg == 'l1':
                 gradient[1:] += self.l1_coef * np.sign(self.weights[1:])
             elif self.reg == 'l2':
@@ -63,7 +56,6 @@ class MyLineReg():
             elif self.reg == 'elasticnet':
                 gradient[1:] += self.l1_coef * np.sign(self.weights[1:]) + 2 * self.l2_coef * self.weights[1:]
             
-        
             self.weights -= self.learning_rate * gradient
           
             if self.metric is not None:
